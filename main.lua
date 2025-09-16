@@ -34,7 +34,7 @@ local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
 -- pakai Icon asset Roblox, misalnya UI pack "rbxassetid://3926305904" (ikon menu)
 -- kamu bisa ganti dengan id/icon sesuai kebutuhan
 local mainTab = UI:AddTab({
-    Name = "", -- kosong biar nggak ada teks
+    Name = "Fhising", -- kosong biar nggak ada teks
     Icon = "rbxassetid://10804731440"
 })
 
@@ -95,7 +95,7 @@ mainTab:AddButton({
 -- pakai Icon asset Roblox, misalnya UI pack "rbxassetid://3926305904" (ikon menu)
 -- kamu bisa ganti dengan id/icon sesuai kebutuhan
 local TestTab = UI:AddTab({
-    Name = "", -- kosong biar nggak ada teks
+    Name = "Main", -- kosong biar nggak ada teks
     Icon = "rbxassetid://10804731440"
 })
 

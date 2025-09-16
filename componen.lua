@@ -234,9 +234,9 @@ function LiteField.CreateWindow(opts)
     notifRoot.Name = "Notifications"
     notifRoot.AnchorPoint = Vector2.new(1,1)
     notifRoot.Position = UDim2.new(1, -12, 1, -12)
-    notifRoot.Size = UDim2.new(0, 320, 1, -12)
+    notifRoot.Size = UDim2.new(0, 260, 0, 0)
     notifRoot.BackgroundTransparency = 1
-    notifRoot.Parent = main
+    notifRoot.Parent = screen
 
     local notifLayout = Instance.new("UIListLayout", notifRoot)
     notifLayout.Padding = UDim.new(0,8)
@@ -676,7 +676,7 @@ function LiteField.CreateWindow(opts)
     end
     local function setMinimized(v)
         minimized = v
-        local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,480)
+        local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,280)
         tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target}):Play()
     end
 
