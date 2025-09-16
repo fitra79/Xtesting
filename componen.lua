@@ -132,7 +132,7 @@ function LiteField.CreateWindow(opts)
     -- Main window
     local main = Instance.new("Frame")
     main.Name = "Main"
-    main.Size = UDim2.new(0, 520, 0, 380)
+    main.Size = UDim2.new(0, 520, 0, 280)
     main.Position = UDim2.new(0.5, -175, 0.5, -75)
     main.BackgroundColor3 = self.Theme.Background
     main.BorderSizePixel = 0
