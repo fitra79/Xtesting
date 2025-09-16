@@ -133,7 +133,8 @@ function LiteField.CreateWindow(opts)
     local main = Instance.new("Frame")
     main.Name = "Main"
     main.Size = UDim2.new(0, 520, 0, 280)
-    main.Position = UDim2.new(0.5, -175, 0.5, -75)
+    main.AnchorPoint = Vector2.new(0.5, 0.5)
+    main.Position = UDim2.new(0.5, 0, 0.5, 0)
     main.BackgroundColor3 = self.Theme.Background
     main.BorderSizePixel = 0
     main.Parent = screen
@@ -250,6 +251,8 @@ function LiteField.CreateWindow(opts)
     self._elements = elements
     self._pages = pages
     self._notifRoot = notifRoot
+    self._activePage = nil
+    self._tabCount = 0
 
     -- Tabs API
     local TabMT = {}
@@ -551,11 +554,13 @@ function LiteField.CreateWindow(opts)
         page.BackgroundTransparency = 1
         page.ScrollBarThickness = 6
         page.Parent = elements
-        page.Visible = false
 
         local lay = Instance.new("UIListLayout", page)
         lay.Padding = UDim.new(0, 8)
         lay.SortOrder = Enum.SortOrder.LayoutOrder
+
+        page.Visible = false
+        self._tabCount += 1
 
         local tabObj = setmetatable({
             Container = page,
@@ -590,6 +595,13 @@ function LiteField.CreateWindow(opts)
             tabList.CanvasSize = UDim2.new(0,0,0, tabLayout.AbsoluteContentSize.Y + 12)
         end)
 
+        if not self._activePage then
+            self._activePage = page
+            page.Visible = true
+            self._pages:JumpTo(page)
+            btn.BackgroundTransparency = 0
+        end
+
         return tabObj
     end
 
@@ -600,6 +612,7 @@ function LiteField.CreateWindow(opts)
             end
         end
         self._pages:JumpTo(targetPage)
+        self._activePage = targetPage
     end    
 
     function self:Notify(data)
