@@ -551,6 +551,7 @@ function LiteField.CreateWindow(opts)
         page.BackgroundTransparency = 1
         page.ScrollBarThickness = 6
         page.Parent = elements
+        page.Visible = false
 
         local lay = Instance.new("UIListLayout", page)
         lay.Padding = UDim.new(0, 8)
@@ -570,7 +571,9 @@ function LiteField.CreateWindow(opts)
         clicker.Parent = btn
 
         clicker.MouseButton1Click:Connect(function()
-            pages:JumpTo(page)
+            self:_setActivePage(page)
+
+            -- update style tab aktif
             for _, child in ipairs(tabList:GetChildren()) do
                 if child:IsA("Frame") then
                     child.BackgroundTransparency = (child == btn) and 0 or 0.3
@@ -579,7 +582,8 @@ function LiteField.CreateWindow(opts)
         end)
 
         if #elements:GetChildren() == 1 then
-            pages:JumpTo(page)
+            page.Visible = true
+            self:_setActivePage(page)
         end
 
         task.defer(function()
@@ -588,6 +592,15 @@ function LiteField.CreateWindow(opts)
 
         return tabObj
     end
+
+    function self:_setActivePage(targetPage)
+        for _, child in ipairs(self._elements:GetChildren()) do
+            if child:IsA("ScrollingFrame") then
+                child.Visible = (child == targetPage)
+            end
+        end
+        self._pages:JumpTo(targetPage)
+    end    
 
     function self:Notify(data)
         data = data or {}
