@@ -1,7 +1,7 @@
 -- ===[ CyberFrog Mini UI (LiteField) ]========================================
 -- Pastikan kamu sudah punya ModuleScript "LiteField" (dari canvas tadi)
 local Players = game:GetService("Players")
-local LiteField = loadstring(game:HttpGet("https://raw.githubusercontent.com/fitra79/Xtesting/refs/heads/main/main.lua"))() -- ganti path jika beda
+local LiteField = loadstring(game:HttpGet("https://raw.githubusercontent.com/fitra79/Xtesting/refs/heads/main/componen.lua"))() -- ganti path jika beda
 
 -- Buat Window utama
 local UI = LiteField.CreateWindow({
