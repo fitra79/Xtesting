@@ -71,7 +71,6 @@ mainTab:AddToggle({
                     task.wait(2.2)
                     FishingCompletedEvent:FireServer()
                 end)
-                task.wait(0.1)
             end
         end)
     end
