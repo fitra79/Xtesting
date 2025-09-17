@@ -260,7 +260,7 @@ function LiteField.CreateWindow(opts)
 
     function TabMT:AddSection(text)
         local sec = Instance.new("TextLabel")
-        sec.Size = UDim2.new(1, -12, 0, 26)
+        sec.Size = UDim2.new(1, -12, 0, 30)
         sec.BackgroundTransparency = 1
         sec.TextXAlignment = Enum.TextXAlignment.Left
         sec.Text = text or "SECTION"
@@ -488,10 +488,11 @@ function LiteField.CreateWindow(opts)
         local e = newElementFrame(self._theme)
         e.Parent = self.Container
         
+        -- Membuat Label untuk nama
         local lbl = Instance.new("TextLabel")
         lbl.BackgroundTransparency = 1
         lbl.Size = UDim2.new(0, 180, 0, 18)  -- Ukuran label (dengan padding di kiri dan kanan)
-        lbl.Position = UDim2.new(0, 12, 0, 4)  -- Posisi label
+        lbl.Position = UDim2.new(0, 12, 0, 0)  -- Posisi label
         lbl.Text = opts2.Name or "Input"
         lbl.TextColor3 = self._theme.Text
         lbl.TextXAlignment = Enum.TextXAlignment.Left
@@ -502,7 +503,7 @@ function LiteField.CreateWindow(opts)
         -- Membuat TextBox untuk input
         local tb = Instance.new("TextBox")
         tb.Size = UDim2.new(0, 100, 0, 24)  -- Ukuran input (lebih kecil, sesuai kebutuhan)
-        tb.Position = UDim2.new(0, 200, 0, 4)  -- Posisi input (di sebelah kanan label)
+        tb.Position = UDim2.new(1, -94, 0.5, -14)
         tb.PlaceholderText = opts2.Placeholder or ""
         tb.Text = tostring(opts2.Default or "")
         tb.TextColor3 = self._theme.Text
@@ -634,7 +635,7 @@ function LiteField.CreateWindow(opts)
         container.BorderSizePixel = 0
         container.Parent = notifRoot
         Instance.new("UICorner", container).CornerRadius = UDim.new(0,10)
-        local stroke = Instance.new("UIStroke", container) stroke.Color = self.Theme.Stroke stroke.Transparency=0.6
+        local stroke = Instance.new("UIStroke", container) stroke.Color = self.Theme.Stroke stroke.Transparency=0.0
         local ttl = Instance.new("TextLabel", container)
         ttl.BackgroundTransparency = 1
         ttl.Text = data.Title or "Notification"
