@@ -73,15 +73,23 @@ mainTab:AddToggle({
 
 local delayBetweenCasts = 2.2  -- Set default value to 2.2
 
-mainTab:AddSlider({
-    Name = "Delay Antara Cast (detik)",  -- Nama slider
-    Min = 1,  -- Nilai minimum
-    Max = 3,  -- Nilai maksimum
-    Step = 0.1,  -- Langkah perubahan slider
-    Default = 2.2,  -- Nilai default
-    Flag = "CastDelay",  -- Flag untuk menyimpan status slider
-    Callback = function(v)
-        delayBetweenCasts = v  -- Set nilai baru berdasarkan slider
+local delayBetweenCasts = 2.2  -- Nilai default
+
+-- Membuat TextBox untuk input manual
+mainTab:AddInput({
+    Name = "Delay Antara Cast (detik)",  -- Nama input
+    Placeholder = "Masukkan waktu delay",  -- Placeholder untuk memberi petunjuk
+    Default = tostring(delayBetweenCasts),  -- Nilai default
+    Callback = function(inputText)
+        -- Mengubah nilai delayBetweenCasts menjadi nilai yang dimasukkan pengguna
+        local inputValue = tonumber(inputText)
+        if inputValue then
+            -- Pastikan nilai berada di rentang 1 - 3
+            delayBetweenCasts = math.clamp(inputValue, 1, 3)
+            print("Delay updated to: " .. delayBetweenCasts)  -- Debugging untuk memastikan nilai
+        else
+            print("Invalid input. Please enter a number between 1 and 3.")  -- Menangani input yang tidak valid
+        end
     end
 })
 
