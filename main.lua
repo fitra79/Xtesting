@@ -29,7 +29,7 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local AutoSell              = NetPackage:WaitForChild("RE/SellAllItems")
+-- local AutoSell              = NetPackage:WaitForChild("RE/SellAllItems")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -49,7 +49,7 @@ mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
 _G.CyberFrog_AutoSell = false
-local delayBetweenCasts = 2.2
+-- local delayBetweenCasts = 2.2
 
 mainTab:AddToggle({
     Name = "Auto Fish",
@@ -96,26 +96,27 @@ mainTab:AddInput({
     end
 })
 
-mainTab.AddToggle({
-    Name = "Auto Sell Fish",
+mainTab:AddToggle({
+    Name = "Auto Sell Test",
     Flag = "AutoSellToggle",
     Default = false,
     Callback = function(isOn)
         _G.CyberFrog_AutoSell = isOn
         UI:Notify({
-            Title = "Auto Fish",
-            Content = "Fitur Auto Fish " .. (isOn and "Diaktifkan" or "Dimatikan"),
+            Title = "Auto Sell",
+            Content = "Fitur Auto Sell " .. (isOn and "Diaktifkan" or "Dimatikan"),
             Duration = 4
         })
         if not isOn then return end
         task.spawn(function()
-            while _G.CyberFrog_AutoFishing1 do
+            while _G.CyberFrog_AutoSell do
                 pcall(function()
                     AutoSell:InvokeServer()
                 end)
             end
+            task.wait(3.2)
         end)
-
+    end
 })
 
 
