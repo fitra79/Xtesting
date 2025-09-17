@@ -633,6 +633,7 @@ function LiteField.CreateWindow(opts)
         container.Size = UDim2.new(0, 320, 0, 0)
         container.BackgroundColor3 = self.Theme.Elem
         container.BorderSizePixel = 0
+        container.BackgroundTransparency = 0
         container.Parent = notifRoot
         Instance.new("UICorner", container).CornerRadius = UDim.new(0,10)
         local stroke = Instance.new("UIStroke", container) stroke.Color = self.Theme.Stroke stroke.Transparency=0.0
