@@ -71,16 +71,17 @@ mainTab:AddToggle({
     end
 })
 
-local delayBetweenCasts = 0.1
+local delayBetweenCasts = 2.2  -- Set default value to 2.2
+
 mainTab:AddSlider({
-    Name = "Delay Antara Cast (detik)",
-    Min = 0,
-    Max = 2,
-    Step = 0.05,
-    Default = 0.1,
-    Flag = "CastDelay",
+    Name = "Delay Antara Cast (detik)",  -- Nama slider
+    Min = 1,  -- Nilai minimum
+    Max = 3,  -- Nilai maksimum
+    Step = 0.1,  -- Langkah perubahan slider
+    Default = 2.2,  -- Nilai default
+    Flag = "CastDelay",  -- Flag untuk menyimpan status slider
     Callback = function(v)
-        delayBetweenCasts = v
+        delayBetweenCasts = v  -- Set nilai baru berdasarkan slider
     end
 })
 

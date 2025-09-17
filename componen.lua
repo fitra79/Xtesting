@@ -215,7 +215,7 @@ function LiteField.CreateWindow(opts)
     tabList.Parent = main
 
     local tabLayout = Instance.new("UIListLayout", tabList)
-    tabLayout.Padding = UDim.new(0,8)
+    tabLayout.Padding = UDim.new(0,10)
     tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
     local elements = Instance.new("Frame")
@@ -368,7 +368,7 @@ function LiteField.CreateWindow(opts)
         lbl.Parent = e
         local bar = Instance.new("Frame", e)
         bar.Size = UDim2.new(1, -24, 0, 6)
-        bar.Position = UDim2.new(0, 12, 0, 28)
+        bar.Position = UDim2.new(0, 12, 0, 40)
         bar.BackgroundColor3 = self._theme.ElemHover
         bar.BorderSizePixel = 0
         local fill = Instance.new("Frame", bar)
@@ -647,7 +647,7 @@ function LiteField.CreateWindow(opts)
         task.wait()
         desc.Size = UDim2.new(1, -16, 0, math.max(20, desc.TextBounds.Y))
         container.Size = UDim2.new(0, 320, 0, desc.AbsoluteSize.Y + 46)
-        container.BackgroundTransparency = 1
+        container.BackgroundTransparency = 0
         stroke.Transparency = 1
         ttl.TextTransparency = 1
         desc.TextTransparency = 1
@@ -705,6 +705,8 @@ function LiteField.CreateWindow(opts)
         minimized = v
         local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,280)
         tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target}):Play()
+
+        main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
     end
 
     btnHide.MouseButton1Click:Connect(function() setHidden(true) end)
