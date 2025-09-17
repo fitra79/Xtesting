@@ -531,21 +531,22 @@ function LiteField.CreateWindow(opts)
         local corner = Instance.new("UICorner", btn) corner.CornerRadius = UDim.new(0,8)
         if opts2.Icon then
             local img = Instance.new("ImageLabel", btn)
-            img.Size = UDim2.new(0, 24, 0, 24)
-            img.Position = UDim2.new(0, 6, 0.5, -12)
+            img.Size = UDim2.new(0, 24, 0, 24)  -- Ukuran ikon
+            img.Position = UDim2.new(0, 6, 0.5, -12)  -- Posisi ikon
             img.BackgroundTransparency = 1
-            img.Image = opts2.Icon -- rbxassetid atau asset URL
-        else
-            local t = Instance.new("TextLabel", btn)
-            t.Size = UDim2.new(1, -8, 1, 0)
-            t.Position = UDim2.new(0, 8, 0, 0)
-            t.BackgroundTransparency = 1
-            t.Font = Enum.Font.Gotham
-            t.TextSize = 14
-            t.TextXAlignment = Enum.TextXAlignment.Left
-            t.TextColor3 = self.Theme.Text
-            t.Text = opts2.Name or "Tab"
+            img.Image = opts2.Icon  -- Gunakan rbxassetid atau URL gambar
         end
+
+        -- TextLabel untuk nama tab
+        local t = Instance.new("TextLabel", btn)
+        t.Size = UDim2.new(1, -40, 1, 0)  -- Sisa ruang untuk teks (40px untuk ikon)
+        t.Position = UDim2.new(0, 30, 0, 0)  -- Posisi nama di samping ikon
+        t.BackgroundTransparency = 1
+        t.Font = Enum.Font.Gotham
+        t.TextSize = 14
+        t.TextXAlignment = Enum.TextXAlignment.Left
+        t.TextColor3 = self.Theme.Text
+        t.Text = opts2.Name or "Tab"
         local uiS = Instance.new("UIStroke", btn) uiS.Color = self.Theme.Stroke uiS.Transparency = 0.6
 
         local page = Instance.new("ScrollingFrame")
