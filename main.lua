@@ -71,18 +71,15 @@ mainTab:AddToggle({
     end
 })
 
-local delayBetweenCasts = 2.2  -- Set default value to 2.2
-
 local delayBetweenCasts = 2.2  -- Nilai default
 
--- Membuat TextBox untuk input manual
 mainTab:AddInput({
     Name = "Delay Antara Cast (detik)",  -- Nama input
     Placeholder = "Masukkan waktu delay",  -- Placeholder untuk memberi petunjuk
-    Default = tostring(delayBetweenCasts),  -- Nilai default
+    Default = delayBetweenCasts,  -- Nilai default, tidak perlu tostring
     Callback = function(inputText)
         -- Mengubah nilai delayBetweenCasts menjadi nilai yang dimasukkan pengguna
-        local inputValue = tonumber(inputText)
+        local inputValue = tonumber(inputText)  -- Mengonversi input menjadi angka
         if inputValue then
             -- Pastikan nilai berada di rentang 1 - 3
             delayBetweenCasts = math.clamp(inputValue, 1, 3)
@@ -92,6 +89,7 @@ mainTab:AddInput({
         end
     end
 })
+
 
 mainTab:AddButton({
     Name = "Test Notify",
