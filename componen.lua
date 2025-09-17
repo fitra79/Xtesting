@@ -502,8 +502,8 @@ function LiteField.CreateWindow(opts)
         
         -- Membuat TextBox untuk input
         local tb = Instance.new("TextBox")
-        tb.Size = UDim2.new(0.5, -12, 0, 26)  -- Ukuran input (lebih kecil, sesuai kebutuhan)
-        tb.Position = UDim2.new(0.5, 12, 0, 4)
+        btn.Size = UDim2.new(0, 84, 0, 28)
+        btn.Position = UDim2.new(1, -94, 0.5, -14)
         tb.PlaceholderText = opts2.Placeholder or ""
         tb.Text = tostring(opts2.Default or "")
         tb.TextColor3 = self._theme.Text
