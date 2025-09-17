@@ -30,6 +30,10 @@ local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
 
+local layout = Instance.new("UIListLayout", mainTab)
+layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
+layout.SortOrder = Enum.SortOrder.LayoutOrder
+
 -- ===[ Build Tabs & Elements ]===============================================
 -- pakai Icon asset Roblox, misalnya UI pack "rbxassetid://3926305904" (ikon menu)
 -- kamu bisa ganti dengan id/icon sesuai kebutuhan
@@ -37,6 +41,8 @@ local mainTab = UI:AddTab({
     Name = "Fishing",  -- Nama tab
     Icon = "rbxassetid://10804731440"  -- ID ikon gambar
 })
+
+
 
 mainTab:AddSection("Auto Farming")
 

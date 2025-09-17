@@ -260,7 +260,7 @@ function LiteField.CreateWindow(opts)
 
     function TabMT:AddSection(text)
         local sec = Instance.new("TextLabel")
-        sec.Size = UDim2.new(1, -12, 0, 30)
+        sec.Size = UDim2.new(1, -12, 0, 32)
         sec.BackgroundTransparency = 1
         sec.TextXAlignment = Enum.TextXAlignment.Left
         sec.Text = text or "SECTION"
@@ -491,7 +491,7 @@ function LiteField.CreateWindow(opts)
         -- Membuat Label untuk nama
         local lbl = Instance.new("TextLabel")
         lbl.BackgroundTransparency = 1
-        lbl.Size = UDim2.new(0, 180, 0, 18)  -- Ukuran label (dengan padding di kiri dan kanan)
+        lbl.Size = UDim2.new(1, -100, 1, 0)  -- Ukuran label (dengan padding di kiri dan kanan)
         lbl.Position = UDim2.new(0, 12, 0, 0)  -- Posisi label
         lbl.Text = opts2.Name or "Input"
         lbl.TextColor3 = self._theme.Text
@@ -502,7 +502,7 @@ function LiteField.CreateWindow(opts)
         
         -- Membuat TextBox untuk input
         local tb = Instance.new("TextBox")
-        tb.Size = UDim2.new(0, 100, 0, 24)  -- Ukuran input (lebih kecil, sesuai kebutuhan)
+        tb.Size = UDim2.new(1, -100, 1, 0)  -- Ukuran input (lebih kecil, sesuai kebutuhan)
         tb.Position = UDim2.new(1, -94, 0.5, -14)
         tb.PlaceholderText = opts2.Placeholder or ""
         tb.Text = tostring(opts2.Default or "")
