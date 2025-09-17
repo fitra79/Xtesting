@@ -534,7 +534,7 @@ function LiteField.CreateWindow(opts)
             img.Size = UDim2.new(0, 24, 0, 24)  -- Ukuran ikon
             img.Position = UDim2.new(0, 6, 0.5, -12)  -- Posisi ikon
             img.BackgroundTransparency = 1
-            img.Image = opts2.Icon  -- Gunakan rbxassetid atau URL gambar
+            img.Image = "https://cdn3.iconfinder.com/data/icons/fluent-regular-24px-vol-4/24/ic_fluent_home_24_regular-256.png"  -- Gunakan rbxassetid atau URL gambar
         end
 
         -- TextLabel untuk nama tab
