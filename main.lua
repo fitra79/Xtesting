@@ -29,6 +29,7 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
+local AutoSell              = NetPackage:WaitForChild("RE/SellAllItems")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -47,6 +48,8 @@ local mainTab = UI:AddTab({
 mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
+_G.CyberFrog_AutoSell = false
+local delayBetweenCasts = 2.2
 
 mainTab:AddToggle({
     Name = "Auto Fish",
@@ -68,15 +71,13 @@ mainTab:AddToggle({
                     ChargeRodFunc:InvokeServer(tick())
                     task.wait(1.5)
                     RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    task.wait(2.2)
+                    task.wait(delayBetweenCasts)
                     FishingCompletedEvent:FireServer()
                 end)
             end
         end)
     end
 })
-
-local delayBetweenCasts = 2.2  -- Nilai default
 
 mainTab:AddInput({
     Name = "Delay Antara Cast (detik)",  -- Nama input
@@ -93,6 +94,28 @@ mainTab:AddInput({
             print("Invalid input. Please enter a number between 1 and 3.")  -- Menangani input yang tidak valid
         end
     end
+})
+
+mainTab.AddToggle({
+    Name = "Auto Sell Fish",
+    Flag = "AutoSellToggle",
+    Default = false,
+    Callback = function(isOn)
+        _G.CyberFrog_AutoSell = isOn
+        UI:Notify({
+            Title = "Auto Fish",
+            Content = "Fitur Auto Fish " .. (isOn and "Diaktifkan" or "Dimatikan"),
+            Duration = 4
+        })
+        if not isOn then return end
+        task.spawn(function()
+            while _G.CyberFrog_AutoFishing1 do
+                pcall(function()
+                    AutoSell:InvokeServer()
+                end)
+            end
+        end)
+
 })
 
 
