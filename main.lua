@@ -85,6 +85,7 @@ mainTab:AddInput({
         local inputValue = tonumber(inputText)
         if inputValue then
             delayBetweenCasts = inputValue
+        end
     end
 })
 
