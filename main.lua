@@ -29,7 +29,6 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local AutoSell              = NetPackage:WaitForChild("RF/SellAllItems")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -48,7 +47,6 @@ local mainTab = UI:AddTab({
 mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
-_G.CyberFrog_AutoSell = false
 local delayBetweenCasts = 2.2
 
 mainTab:AddToggle({
@@ -81,11 +79,16 @@ mainTab:AddToggle({
 
 mainTab:AddInput({
     Name = "Delay Antara Cast (detik)",
-    Placeholder = "Masukkan waktu delay",  -- Placeholder untuk memberi petunjuk
-    Default = delayBetweenCasts,  -- Nilai default, tidak perlu tostring
+    Placeholder = "Masukkan waktu delay",
+    Default = tostring(delayBetweenCasts),
     Callback = function(inputText)
         local inputValue = tonumber(inputText)
-        delayBetweenCasts = inputValue
+        if inputValue then
+            delayBetweenCasts = inputValue
+            print("Delay updated to: " .. delayBetweenCasts)
+        else
+            print("Invalid input. Please enter a valid number.")
+        end
     end
 })
 
