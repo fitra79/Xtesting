@@ -29,7 +29,6 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local AutoSell              = NetPackage:WaitForChild("RF/SellAllItems")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -48,7 +47,6 @@ local mainTab = UI:AddTab({
 mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
-_G.CyberFrog_AutoSell = false
 local delayBetweenCasts = 2.2
 
 mainTab:AddToggle({
@@ -80,155 +78,18 @@ mainTab:AddToggle({
 })
 
 mainTab:AddInput({
-    Name = "Delay Antara Cast (detik)",  -- Nama input
-    Placeholder = "Masukkan waktu delay",  -- Placeholder untuk memberi petunjuk
-    Default = delayBetweenCasts,  -- Nilai default, tidak perlu tostring
+    Name = "Delay Antara Cast (detik)",
+    Placeholder = "Masukkan waktu delay",
+    Default = delayBetweenCasts,
     Callback = function(inputText)
-        -- Mengubah nilai delayBetweenCasts menjadi nilai yang dimasukkan pengguna
-        local inputValue = tonumber(inputText)  -- Mengonversi input menjadi angka
+        local inputValue = tonumber(inputText)
         if inputValue then
-            -- Pastikan nilai berada di rentang 1 - 3
-            delayBetweenCasts = math.clamp(inputValue, 1, 3)
-            print("Delay updated to: " .. delayBetweenCasts)  -- Debugging untuk memastikan nilai
-        else
-            print("Invalid input. Please enter a number between 1 and 3.")  -- Menangani input yang tidak valid
-        end
-    end
-})
-
-mainTab:AddToggle({
-    Name = "Auto Sell Test",
-    Flag = "AutoSellToggle",
-    Default = false,
-    Callback = function(isOn)
-        if not isOn then return end
-        task.spawn(function()
-            while _G.CyberFrog_AutoSell do
-                pcall(function()
-                    AutoSell:InvokeServer()
-                end)
-            end
-            task.wait(3.2)
-        end)
+            delayBetweenCasts = inputValue
     end
 })
 
 
 mainTab:AddButton({
-    Name = "Test Notify",
-    Callback = function()
-        UI:Notify({ Title = "CyberFrog", Content = "All systems nominal.", Duration = 3 })
-    end
-})
-
-mainTab:AddSection("Auto Farming")
-
-_G.CyberFrog_AutoFishing1 = false
-
-mainTab:AddToggle({
-    Name = "Auto Fish Test",
-    Flag = "AutoFishToggle",
-    Default = false,
-    Callback = function(isOn)
-        _G.CyberFrog_AutoFishing1 = isOn
-        UI:Notify({
-            Title = "Auto Fish",
-            Content = "Fitur Auto Fish " .. (isOn and "Diaktifkan" or "Dimatikan"),
-            Duration = 4
-        })
-        if not isOn then return end
-        task.spawn(function()
-            while _G.CyberFrog_AutoFishing1 do
-                pcall(function()
-                    EquipRodEvent:FireServer(1)
-                    task.wait(0.5)
-                    ChargeRodFunc:InvokeServer(tick())
-                    task.wait(1.5)
-                    RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    task.wait(2.2)
-                    FishingCompletedEvent:FireServer()
-                end)
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
-local delayBetweenCasts = 0.1
-mainTab:AddSlider({
-    Name = "Delay Antara Cast (detik)",
-    Min = 0,
-    Max = 2,
-    Step = 0.05,
-    Default = 0.1,
-    Flag = "CastDelay",
-    Callback = function(v)
-        delayBetweenCasts = v
-    end
-})
-
-mainTab:AddButton({
-    Name = "Test Notify",
-    Callback = function()
-        UI:Notify({ Title = "CyberFrog", Content = "All systems nominal.", Duration = 3 })
-    end
-})
-
--- ===[ Build Tabs & Elements ]===============================================
--- pakai Icon asset Roblox, misalnya UI pack "rbxassetid://3926305904" (ikon menu)
--- kamu bisa ganti dengan id/icon sesuai kebutuhan
-local TestTab = UI:AddTab({
-    Name = "Main", -- kosong biar nggak ada teks
-    Icon = "rbxassetid://10804731440"
-})
-
-TestTab:AddSection("Auto Farming Test")
-
-_G.CyberFrog_AutoFishing = false
-
-TestTab:AddToggle({
-    Name = "Auto Fish",
-    Flag = "AutoFishToggle",
-    Default = false,
-    Callback = function(isOn)
-        _G.CyberFrog_AutoFishing = isOn
-        UI:Notify({
-            Title = "Auto Fish",
-            Content = "Fitur Auto Fish " .. (isOn and "Diaktifkan" or "Dimatikan"),
-            Duration = 4
-        })
-        if not isOn then return end
-        task.spawn(function()
-            while _G.CyberFrog_AutoFishing do
-                pcall(function()
-                    EquipRodEvent:FireServer(1)
-                    task.wait(0.5)
-                    ChargeRodFunc:InvokeServer(tick())
-                    task.wait(1.5)
-                    RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    task.wait(2.2)
-                    FishingCompletedEvent:FireServer()
-                end)
-                task.wait(0.1)
-            end
-        end)
-    end
-})
-
-local delayBetweenCasts = 0.1
-TestTab:AddSlider({
-    Name = "Delay Antara Cast (detik)",
-    Min = 0,
-    Max = 2,
-    Step = 0.05,
-    Default = 0.1,
-    Flag = "CastDelay",
-    Callback = function(v)
-        delayBetweenCasts = v
-    end
-})
-
-TestTab:AddButton({
     Name = "Test Notify",
     Callback = function()
         UI:Notify({ Title = "CyberFrog", Content = "All systems nominal.", Duration = 3 })
