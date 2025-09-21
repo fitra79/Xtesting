@@ -102,16 +102,11 @@ teloportTab:AddSection("Teleport")
 
 local player = Players.LocalPlayer
 
-Pulau fhising = X: 92.41, Y: 9.53, Z: 2685.21
-Kohona = X: -600.73, Y: 17.25, Z: 512.04
-Lava = X: -616.90, Y: 48.35, Z: 186.99
-Pulau hilang = X: -3672.32, Y: -135.07, Z: -993.56
-
 -- Target koordinat Shop
 local shop = Vector3.new(42.11, 17.28, 2865.98)
 local konoha = Vector3.new(-600.73, 17.25, 512.04)
 local lava = Vector3.new(-616.90, 48.35, 186.99)
-local pulauHilang = Vector3.new(-3672.32, -135.07, -993.56)
+local pulauHilang = Vector3.new(-616.90, 48.35, 186.99)
 
 
 teloportTab:AddButton({
@@ -119,7 +114,7 @@ teloportTab:AddButton({
     Callback = function()
         UI:Notify({
             Title = "Teleport Shop",
-            Content = "Fitur Teleport Shop Auto",
+            Content = "Fitur Teleport Auto",
             Duration = 4
         })
         local character = player.Character or player.CharacterAdded:Wait()
@@ -136,50 +131,14 @@ teloportTab:AddButton({
     Name = "Konoha",
     Callback = function()
         UI:Notify({
-            Title = "Teleport konoha",
-            Content = "Fitur Teleport konoha Auto",
+            Title = "Teleport Shop",
+            Content = "Fitur Teleport Auto",
             Duration = 4
         })
         local character = player.Character or player.CharacterAdded:Wait()
         local root = character:WaitForChild("HumanoidRootPart", 5)
         if root then
-            root.CFrame = CFrame.new(konoha + Vector3.new(0, 3, 0))
-        else
-            warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
-        end
-    end
-})
-
-teloportTab:AddButton({
-    Name = "lava",
-    Callback = function()
-        UI:Notify({
-            Title = "Teleport lava",
-            Content = "Fitur Teleport lava Auto",
-            Duration = 4
-        })
-        local character = player.Character or player.CharacterAdded:Wait()
-        local root = character:WaitForChild("HumanoidRootPart", 5)
-        if root then
-            root.CFrame = CFrame.new(lava + Vector3.new(0, 3, 0))
-        else
-            warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
-        end
-    end
-})
-
-teloportTab:AddButton({
-    Name = "Pulau Hilang",
-    Callback = function()
-        UI:Notify({
-            Title = "Teleport lava",
-            Content = "Fitur Teleport Pulau Hilang Auto",
-            Duration = 4
-        })
-        local character = player.Character or player.CharacterAdded:Wait()
-        local root = character:WaitForChild("HumanoidRootPart", 5)
-        if root then
-            root.CFrame = CFrame.new(pulauHilang + Vector3.new(0, 3, 0))
+            root.CFrame = CFrame.new(shop + Vector3.new(0, 3, 0))
         else
             warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
         end
