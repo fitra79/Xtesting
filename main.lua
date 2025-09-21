@@ -29,7 +29,7 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local SellFishFunc = NetPackage:WaitForChild("RF/SellFish")
+local SellAllFunc = NetPackage:WaitForChild("RF/RequestSellAll")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -100,7 +100,7 @@ mainTab:AddToggle({
             while _G.CyberFrog_AutoSell do
                 pcall(function()
                     -- panggil remote jual ikan
-                    SellFishFunc:InvokeServer("All") -- kadang pakai argumen "All" atau daftar ikan
+                    SellAllFunc:InvokeServer() -- kadang pakai argumen "All" atau daftar ikan
                 end)
                 task.wait(5) -- setiap 5 detik auto sell
             end
