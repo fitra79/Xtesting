@@ -49,11 +49,6 @@ local teloportTab = UI:AddTab({
     Icon = "rbxassetid://10804731440"  -- ID ikon gambar
 })
 
-local teloportTab = UI:AddTab({
-    Name = "Mount",  -- Nama tab
-    Icon = "rbxassetid://10804731440"  -- ID ikon gambar
-})
-
 
 mainTab:AddSection("Auto Farming")
 
@@ -193,3 +188,4 @@ teloportTab:AddButton({
         end
     end
 })
+
