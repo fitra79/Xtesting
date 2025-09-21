@@ -1,9 +1,14 @@
---[[
+--[[ 
     WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "CoordinatesGui"
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0.2, 0, 0.1, 0)
@@ -22,17 +27,15 @@ label.BackgroundTransparency = 1
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
 label.TextScaled = true
 label.Parent = frame
-    local function updateCoordinates()
-    local player = game.Players.LocalPlayer
+
+local function updateCoordinates()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-    while true do
+    RunService.RenderStepped:Connect(function()
         local position = humanoidRootPart.Position
         label.Text = string.format("X: %.2f, Y: %.2f, Z: %.2f", position.X, position.Y, position.Z)
-        wait(0.000000000001) -- Memperbarui setiap 0.1 detik
-    end
+    end)
 end
 
-spawn(updateCoordinates)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+updateCoordinates()
