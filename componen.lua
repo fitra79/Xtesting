@@ -717,12 +717,9 @@ function LiteField.CreateWindow(opts)
     local function setMinimized(v)
         minimized = v
         local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,280)
-        local tweenObj = tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target})
-        tweenObj:Play()
-        -- adjust position after tween to keep centered vertically
-        tweenObj.Completed:Connect(function()
-            main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
-        end)
+        tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target}):Play()
+
+        main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
     end
 
     -- Single btnHide connection
