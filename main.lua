@@ -108,6 +108,11 @@ local shop = Vector3.new(42.11, 17.28, 2865.98)
 teloportTab:AddButton({
     Name = "Shop",
     Callback = function()
+        UI:Notify({
+            Title = "Teleport Shop",
+            Content = "Fitur Teleport Auto",
+            Duration = 4
+        })
         local character = player.Character or player.CharacterAdded:Wait()
         local root = character:WaitForChild("HumanoidRootPart", 5)
         if root then
