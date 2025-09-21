@@ -1,30 +1,5 @@
---[[
-LiteField: a lightweight Roblox UI library inspired by Rayfield/gav.lua
-Single-file ModuleScript – drop into ReplicatedStorage (or anywhere) and require it.
-
-Features (v0.1):
-- Window with draggable topbar, hide/show keybind, minimise/maximise
-- Tab system with UIPageLayout
-- Elements: Button, Toggle, Slider, Dropdown, Input (TextBox), Section, Divider
-- Notifications with auto-dismiss
-- Simple theming (Default, Light, Ocean) + custom theme table support
-- Optional config save/load (readfile/writefile)
-- No external HTTP, no executors required (persistence graceful if unavailable)
-
-API:
-local ui = LiteField.CreateWindow({
-    Title = "My Tool", Keybind = Enum.KeyCode.K, Theme = "Default", ConfigName = "mytool" -- optional
-})
-local tab = ui:AddTab({Name = "Main", Icon = 0})
-local btn = tab:AddButton({Name = "Do Thing", Callback = function() end})
-local tgl = tab:AddToggle({Name = "Auto", Default = false, Callback = function(v) end})
-local sld = tab:AddSlider({Name = "Speed", Min = 0, Max = 100, Default = 50, Step = 1, Callback=function(v) end})
-local dd  = tab:AddDropdown({Name = "Mode", Options = {"A","B"}, Default = "A", Callback=function(v) end})
-local inp = tab:AddInput({Name = "Text", Placeholder = "Type...", Default = "", Callback=function(text) end})
-ui:Notify({Title="Hello", Content="LiteField ready!", Duration=4})
-ui:SaveConfig() -- ui:LoadConfig() auto-called on build if possible
-
---]]
+-- LiteField: a lightweight Roblox UI library inspired by Rayfield/gav.lua
+-- Single-file ModuleScript – drop into ReplicatedStorage (or anywhere) and require it.
 
 local LiteField = {}
 LiteField.__index = LiteField
@@ -195,19 +170,20 @@ function LiteField.CreateWindow(opts)
     btnMini.Parent = top
     Instance.new("UICorner", btnMini).CornerRadius = UDim.new(0,8)
 
-    -- Bubble Button (CyberFrog text)
+    -- Bubble Button (CyberFrog text) — parent to screen so it remains when main is hidden
     local bubbleBtn = Instance.new("TextButton")
     bubbleBtn.Name = "Bubble"
     bubbleBtn.Text = "CyberFrog"
-    bubbleBtn.Size = UDim2.new(0, 120, 0, 36)
-    bubbleBtn.Position = UDim2.new(0.5, -60, 0, 10) -- atas tengah
+    bubbleBtn.Size = UDim2.new(0, 140, 0, 36)
+    bubbleBtn.Position = UDim2.new(0.5, 0, 0, 10) -- atas tengah
     bubbleBtn.AnchorPoint = Vector2.new(0.5, 0)
     bubbleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     bubbleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     bubbleBtn.Font = Enum.Font.GothamBold
     bubbleBtn.TextSize = 16
     bubbleBtn.Visible = false
-    bubbleBtn.Parent = gui
+    bubbleBtn.ZIndex = 9999
+    bubbleBtn.Parent = screen
 
     Instance.new("UICorner", bubbleBtn).CornerRadius = UDim.new(0, 10)
 
@@ -723,37 +699,33 @@ function LiteField.CreateWindow(opts)
         end
     end
 
-    -- Behavior: keybind toggle visibility
+    -- Behavior: visibility + minimize
     local hidden, minimized = false, false
-    local function setHidden(v)
-        hidden = v
-        main.Visible = not v
+
+    local function showUI()
+        hidden = false
+        main.Visible = true
+        bubbleBtn.Visible = false
     end
+
+    local function hideUI()
+        hidden = true
+        main.Visible = false
+        bubbleBtn.Visible = true
+    end
+
     local function setMinimized(v)
         minimized = v
         local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,280)
-        tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target}):Play()
-
-        main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
+        local tweenObj = tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target})
+        tweenObj:Play()
+        -- adjust position after tween to keep centered vertically
+        tweenObj.Completed:Connect(function()
+            main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
+        end)
     end
 
-    btnHide.MouseButton1Click:Connect(function() 
-        setHidden(true)
-        bubbleBtn.Visible = true 
-    end)
-
-    local function hideUI()
-        main.Visible = false
-        bubbleBtn.Visible = true
-        hidden = true
-    end
-
-    local function showUI()
-        main.Visible = true
-        bubbleBtn.Visible = false
-        hidden = false
-    end
-
+    -- Single btnHide connection
     btnHide.MouseButton1Click:Connect(function()
         hideUI()
     end)
@@ -761,12 +733,19 @@ function LiteField.CreateWindow(opts)
     bubbleBtn.MouseButton1Click:Connect(function()
         showUI()
     end)
-    btnMini.MouseButton1Click:Connect(function() setMinimized(not minimized) end)
+
+    btnMini.MouseButton1Click:Connect(function()
+        setMinimized(not minimized)
+    end)
 
     UserInputService.InputBegan:Connect(function(input, gpe)
         if gpe then return end
         if input.KeyCode == self.Keybind then
-            setHidden(not hidden)
+            if hidden then
+                showUI()
+            else
+                hideUI()
+            end
         end
     end)
 
