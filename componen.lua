@@ -536,7 +536,7 @@ function LiteField.CreateWindow(opts)
     function self:AddTab(opts2)
         local btn = Instance.new("Frame")
         btn.Name = (opts2.Name or "Tab") .. "Btn"
-        btn.Size = UDim2.new(1, -14, 0, 42)
+        btn.Size = UDim2.new(1, -15, 0, 42)
         btn.BackgroundColor3 = self.Theme.Elem
         btn.Parent = tabList
         local corner = Instance.new("UICorner", btn) corner.CornerRadius = UDim.new(0,8)
