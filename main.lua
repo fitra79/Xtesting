@@ -29,6 +29,7 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
+local SellItemFunc = NetPackage:WaitForChild("RF/SellItem")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 12)  -- Menambahkan jarak 10px antar elemen
@@ -218,9 +219,6 @@ local sellTab = UI:AddTab({
     Name = "Sell",
     Icon = "rbxassetid://10804731440"
 })
-
--- RemoteFunction SellItem
-local SellItemFunc = NetPackage:WaitForChild("RF"):WaitForChild("SellItem")
 
 sellTab:AddButton({
     Name = "Sell All Fish",
