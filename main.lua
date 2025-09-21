@@ -42,6 +42,11 @@ local mainTab = UI:AddTab({
     Icon = "rbxassetid://10804731440"  -- ID ikon gambar
 })
 
+local teloportTab = UI:AddTab({
+    Name = "Teleport",  -- Nama tab
+    Icon = "rbxassetid://10804731440"  -- ID ikon gambar
+})
+
 
 
 mainTab:AddSection("Auto Farming")
@@ -92,10 +97,23 @@ mainTab:AddInput({
     end
 })
 
+---- Teloport ----
+teloportTab:AddSection("Teleport")
 
-mainTab:AddButton({
-    Name = "Test Notify",
+local player = Players.LocalPlayer
+
+-- Target koordinat Shop
+local shop = Vector3.new(42.11, 17.28, 2865.98)
+
+teloportTab:AddButton({
+    Name = "Shop",
     Callback = function()
-        UI:Notify({ Title = "CyberFrog", Content = "All systems nominal.", Duration = 3 })
+        local character = player.Character or player.CharacterAdded:Wait()
+        local root = character:WaitForChild("HumanoidRootPart", 5)
+        if root then
+            root.CFrame = CFrame.new(shop + Vector3.new(0, 3, 0))
+        else
+            warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
+        end
     end
 })
