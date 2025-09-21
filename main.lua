@@ -29,10 +29,10 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local SellItemFunc = NetPackage:WaitForChild("RF/SellItem")
+local SellItemFunc = NetPackage:WaitForChild("RF/SellAllItems")
 
 local layout = Instance.new("UIListLayout", mainTab)
-layout.Padding = UDim.new(0, 12)  -- Menambahkan jarak 10px antar elemen
+layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 
 -- ===[ Build Tabs & Elements ]===============================================
@@ -253,7 +253,7 @@ debugTab:AddButton({
 
         local success, result = pcall(function()
             -- Ganti "Fish_Small" sama nama item bener kalo sudah tau
-            return SellItemFunc:InvokeServer("Fish_Small", 1)
+            return SellItemFunc:InvokeServer()
         end)
 
         if success then
