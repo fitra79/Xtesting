@@ -30,6 +30,7 @@ local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
 local SellItemFunc = NetPackage:WaitForChild("RF/SellAllItems")
+-- local PlayVFX = NetPackage:WaitForChild("RE/PlayVFX")
 -- local PlayFhisingEffect = NetPackage:WaitForChild("RF/PlayFishingEffect")
 
 local layout = Instance.new("UIListLayout", mainTab)
