@@ -225,7 +225,7 @@ scannerTab:AddButton({
 
 Mount:AddSection("Teleport")
 
-teloportTab:AddButton({
+Mount:AddButton({
     Name = "Mount Atin",
     Callback = function()
         UI:Notify({
