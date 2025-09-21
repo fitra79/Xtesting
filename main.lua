@@ -29,7 +29,7 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local SellItemFunc = NetPackage:WaitForChild("RF/SellAllItems")
+local SellItemFunc          = NetPackage:WaitForChild("RF/SellAllItems")
 
 
 local layout = Instance.new("UIListLayout", mainTab)
@@ -48,12 +48,6 @@ local teloportTab = UI:AddTab({
     Name = "Teleport",  -- Nama tab
     Icon = "rbxassetid://10804731440"  -- ID ikon gambar
 })
-
-local Mount = UI:AddTab({
-    Name = "Mount",  -- Nama tab
-    Icon = "rbxassetid://10804731440"  -- ID ikon gambar
-})
-
 
 
 
@@ -119,7 +113,7 @@ local player = Players.LocalPlayer
 
 -- Target koordinat Shop
 local shop = Vector3.new(42.11, 17.28, 2865.98)
-local Kohana = Vector3.new(-600.73, 17.25, 512.04)
+local konoha = Vector3.new(-600.73, 17.25, 512.04)
 local lava = Vector3.new(-616.90, 48.35, 186.99)
 local pulauHilang = Vector3.new(-3672.32, -135.07, -993.56)
 
@@ -143,17 +137,17 @@ teloportTab:AddButton({
 })
 
 teloportTab:AddButton({
-    Name = "Kohana",
+    Name = "Konoha",
     Callback = function()
         UI:Notify({
-            Title = "Teleport Kohana",
-            Content = "Fitur Teleport Kohana Auto",
+            Title = "Teleport Konoha",
+            Content = "Fitur Teleport Konoha Auto",
             Duration = 4
         })
         local character = player.Character or player.CharacterAdded:Wait()
         local root = character:WaitForChild("HumanoidRootPart", 5)
         if root then
-            root.CFrame = CFrame.new(Kohana + Vector3.new(0, 3, 0))
+            root.CFrame = CFrame.new(konoha + Vector3.new(0, 3, 0))
         else
             warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
         end
@@ -196,6 +190,12 @@ teloportTab:AddButton({
     end
 })
 
+-- === [ Remote Scanner Tab ] ================================================
+local scannerTab = UI:AddTab({
+    Name = "Remote Scanner",
+    Icon = "rbxassetid://10804731440"
+})
+
 scannerTab:AddButton({
     Name = "Scan Remotes",
     Callback = function()
@@ -219,22 +219,6 @@ scannerTab:AddButton({
             Title = "Scanner",
             Content = "Ketemu " .. tostring(#found) .. " Remote(s). Cek di Output.",
             Duration = 6
-        })
-    end
-})
-
-Mount:AddSection("Teleport")
-
-Mount:AddButton({
-    Name = "Mount Atin",
-    Callback = function()
-        UI:Notify({
-            Title = "Mount Atin",
-            Content = "Fitur Mount Atin",
-            Duration = 4
-        })
-        runLoader({
-        "https://raw.githubusercontent.com/fitra79/RbScript/refs/heads/main/maps/atin.lua"
         })
     end
 })
