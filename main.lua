@@ -214,41 +214,52 @@ scannerTab:AddButton({
     end
 })
 
--- === [ Sell Tab ] ==========================================================
-local sellTab = UI:AddTab({
-    Name = "Sell",
+---- Tambahan Tab Debug ----
+local debugTab = UI:AddTab({
+    Name = "Debug",
     Icon = "rbxassetid://10804731440"
 })
 
-sellTab:AddButton({
-    Name = "Sell All Fish",
-    Callback = function()
-        local success, err = pcall(function()
-            -- contoh kalau SellItem butuh parameter: {ItemName, Jumlah}
-            -- kalau inventory kamu pakai nama item seperti "Trout", "Salmon" dsb.
-            -- kamu bisa loop inventory lalu Invoke satu-satu
-            local player = Players.LocalPlayer
-            local backpack = player:WaitForChild("Backpack")
+debugTab:AddSection("SellItem Debugger")
 
-            for _, tool in ipairs(backpack:GetChildren()) do
-                SellItemFunc:InvokeServer(tool.Name, 9999) -- jual semua jumlahnya
-                task.wait(0.2)
-            end
+-- Tombol untuk hook logger
+debugTab:AddButton({
+    Name = "Hook SellItem Logger",
+    Callback = function()
+        UI:Notify({
+            Title = "Hook Activated",
+            Content = "SellItem call akan dicetak di console.",
+            Duration = 5
+        })
+
+        local old; old = hookfunction(SellItemFunc.InvokeServer, function(self, ...)
+            print("[SellItem Called] Args:", ...)
+            local result = old(self, ...)
+            print("[SellItem Result]", result)
+            return result
+        end)
+    end
+})
+
+-- Tombol untuk test manual invoke
+debugTab:AddButton({
+    Name = "Test SellItem Invoke",
+    Callback = function()
+        UI:Notify({
+            Title = "Testing...",
+            Content = "Mengirim request dummy ke SellItem.",
+            Duration = 4
+        })
+
+        local success, result = pcall(function()
+            -- Ganti "Fish_Small" sama nama item bener kalo sudah tau
+            return SellItemFunc:InvokeServer("Fish_Small", 1)
         end)
 
         if success then
-            UI:Notify({
-                Title = "Sell",
-                Content = "Semua ikan berhasil dijual!",
-                Duration = 5
-            })
+            print("[SellItem Test Result]", result)
         else
-            warn("Gagal Sell:", err)
-            UI:Notify({
-                Title = "Sell",
-                Content = "Gagal jual ikan, cek console.",
-                Duration = 5
-            })
+            warn("[SellItem Test Error]", result)
         end
     end
 })
