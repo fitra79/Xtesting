@@ -29,10 +29,9 @@ local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local SellAllFunc = NetPackage:WaitForChild("RF/RequestSellAll")
 
 local layout = Instance.new("UIListLayout", mainTab)
-layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
+layout.Padding = UDim.new(0, 12)  -- Menambahkan jarak 10px antar elemen
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 
 -- ===[ Build Tabs & Elements ]===============================================
@@ -53,7 +52,6 @@ local teloportTab = UI:AddTab({
 mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
-_G.CyberFrog_AutoSell = false
 
 mainTab:AddToggle({
     Name = "Auto Fish",
@@ -78,31 +76,6 @@ mainTab:AddToggle({
                     task.wait(2.1)
                     FishingCompletedEvent:FireServer()
                 end)
-            end
-        end)
-    end
-})
-
-mainTab:AddToggle({
-    Name = "Auto Sell Fish",
-    Flag = "AutoSellToggle",
-    Default = false,
-    Callback = function(state)
-        _G.CyberFrog_AutoSell = state
-        UI:Notify({
-            Title = "Auto Sell",
-            Content = "Fitur Auto Sell " .. (state and "Diaktifkan" or "Dimatikan"),
-            Duration = 4
-        })
-
-        if not state then return end
-        task.spawn(function()
-            while _G.CyberFrog_AutoSell do
-                pcall(function()
-                    -- panggil remote jual ikan
-                    SellAllFunc:InvokeServer() -- kadang pakai argumen "All" atau daftar ikan
-                end)
-                task.wait(5) -- setiap 5 detik auto sell
             end
         end)
     end
@@ -204,5 +177,38 @@ teloportTab:AddButton({
         else
             warn("HumanoidRootPart tidak ditemukan. Gagal teleport.")
         end
+    end
+})
+
+-- === [ Remote Scanner Tab ] ================================================
+local scannerTab = UI:AddTab({
+    Name = "Remote Scanner",
+    Icon = "rbxassetid://10804731440"
+})
+
+scannerTab:AddButton({
+    Name = "Scan Remotes",
+    Callback = function()
+        local found = {}
+        for _, obj in ipairs(NetPackage:GetDescendants()) do
+            if obj:IsA("RemoteEvent") then
+                table.insert(found, "RemoteEvent: " .. obj:GetFullName())
+            elseif obj:IsA("RemoteFunction") then
+                table.insert(found, "RemoteFunction: " .. obj:GetFullName())
+            end
+        end
+        
+        -- tampilkan di console
+        warn("=== Remote Scanner Result ===")
+        for _, line in ipairs(found) do
+            print(line)
+        end
+        
+        -- tampilkan juga notifikasi jumlahnya
+        UI:Notify({
+            Title = "Scanner",
+            Content = "Ketemu " .. tostring(#found) .. " Remote(s). Cek di Output.",
+            Duration = 6
+        })
     end
 })
