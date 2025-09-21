@@ -30,7 +30,7 @@ local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
 local SellItemFunc = NetPackage:WaitForChild("RF/SellAllItems")
-local PlayFhisingEffect = NetPackage:WaitForChild("RF/PlayFishingEffect")
+-- local PlayFhisingEffect = NetPackage:WaitForChild("RF/PlayFishingEffect")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -77,8 +77,6 @@ mainTab:AddToggle({
                     task.wait(1.5)
                     RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
                     task.wait(2.1)
-                    PlayFhisingEffect:InvokeServer()
-                    task.wait(0.5)
                     FishingCompletedEvent:FireServer()
                 end)
             end
