@@ -172,44 +172,44 @@ function LiteField.CreateWindow(opts)
     title.Parent = top
 
     local btnHide = Instance.new("TextButton")
-    btnHide.Name = "✖"
+    btnHide.Name = "Hide"
     btnHide.Size = UDim2.new(0, 60, 0, 28)
     btnHide.Position = UDim2.new(1, -68, 0.5, -14)
     btnHide.BackgroundColor3 = self.Theme.Elem
     btnHide.TextColor3 = self.Theme.Text
-    btnHide.Text = "✖"
+    btnHide.Text = "Hide"
     btnHide.Font = Enum.Font.Gotham
     btnHide.TextSize = 14
     btnHide.Parent = top
     Instance.new("UICorner", btnHide).CornerRadius = UDim.new(0,8)
 
     local btnMini = Instance.new("TextButton")
-    btnMini.Name ="–"
+    btnMini.Name = "Mini"
     btnMini.Size = UDim2.new(0, 60, 0, 28)
     btnMini.Position = UDim2.new(1, -136, 0.5, -14)
     btnMini.BackgroundColor3 = self.Theme.Elem
     btnMini.TextColor3 = self.Theme.Text
-    btnMini.Text = "–"
+    btnMini.Text = "Min"
     btnMini.Font = Enum.Font.Gotham
     btnMini.TextSize = 14
     btnMini.Parent = top
     Instance.new("UICorner", btnMini).CornerRadius = UDim.new(0,8)
 
-    -- Bubble
+    -- Bubble Button (CyberFrog text)
     local bubbleBtn = Instance.new("TextButton")
-    bubbleBtn.Size = UDim2.new(0, 90, 0, 40)
-    bubbleBtn.Position = UDim2.new(0, 20, 0.7, 0)
+    bubbleBtn.Name = "Bubble"
     bubbleBtn.Text = "CyberFrog"
-    bubbleBtn.BackgroundColor3 = Color3.fromRGB(0,140,220)
-    bubbleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+    bubbleBtn.Size = UDim2.new(0, 120, 0, 36)
+    bubbleBtn.Position = UDim2.new(0.5, -60, 0, 10) -- atas tengah
+    bubbleBtn.AnchorPoint = Vector2.new(0.5, 0)
+    bubbleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    bubbleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     bubbleBtn.Font = Enum.Font.GothamBold
     bubbleBtn.TextSize = 16
     bubbleBtn.Visible = false
-    bubbleBtn.Active = true
-    bubbleBtn.Draggable = true
-    Instance.new("UICorner", bubbleBtn).CornerRadius = UDim.new(0,14)
+    bubbleBtn.Parent = gui
 
-    
+    Instance.new("UICorner", bubbleBtn).CornerRadius = UDim.new(0, 10)
 
     local divider = Instance.new("Frame")
     divider.Size = UDim2.new(1, 0, 0, 1)
@@ -737,16 +737,29 @@ function LiteField.CreateWindow(opts)
         main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
     end
 
-    btnHide.MouseButton1Click:Connect(function() setHidden(true) end)
-    btnMini.MouseButton1Click:Connect(function()
-        main.Visible = false
+    btnHide.MouseButton1Click:Connect(function() 
+        setHidden(true)
+        bubbleBtn.Visible = true 
+    end)
+
+    local function hideUI()
+        setHidden(true)
         bubbleBtn.Visible = true
+    end
+
+    local function showUI()
+        setHidden(false)
+        bubbleBtn.Visible = false
+    end
+
+    btnHide.MouseButton1Click:Connect(function()
+        hideUI()
     end)
 
     bubbleBtn.MouseButton1Click:Connect(function()
-        main.Visible = true
-        bubbleBtn.Visible = false
+        showUI()
     end)
+    btnMini.MouseButton1Click:Connect(function() setMinimized(not minimized) end)
 
     UserInputService.InputBegan:Connect(function(input, gpe)
         if gpe then return end
