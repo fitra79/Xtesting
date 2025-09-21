@@ -17,16 +17,8 @@ UI:Notify({
 })
 
 -- ===[ Remote References ]====================================================
-local NetPackage = ReplicatedStorage:WaitForChild("Packages")
-    :WaitForChild("_Index")
-    :WaitForChild("sleitnick_net@0.2.0")
-    :WaitForChild("net")
 
-local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
-local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
-local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
-local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
-local SellItemFunc          = NetPackage:WaitForChild("RF/SellAllItems")
+
 
 -- ===[ Build Tabs & Elements ]===============================================
 local mainTab = UI:AddTab({
@@ -61,6 +53,16 @@ mainTab:AddToggle({
     Flag = "AutoFishToggle",
     Default = false,
     Callback = function(isOn)
+        local NetPackage = ReplicatedStorage:WaitForChild("Packages")
+            :WaitForChild("_Index")
+            :WaitForChild("sleitnick_net@0.2.0")
+            :WaitForChild("net")
+
+        local EquipRodEvent         = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
+        local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
+        local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
+        local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
+
         _G.CyberFrog_AutoFishing = isOn
         if not isOn then return end
         task.spawn(function()
@@ -85,6 +87,11 @@ mainTab:AddToggle({
     Flag = "AutoSellToggle",
     Default = false,
     Callback = function(isOn)
+        local NetPackage = ReplicatedStorage:WaitForChild("Packages")
+            :WaitForChild("_Index")
+            :WaitForChild("sleitnick_net@0.2.0")
+            :WaitForChild("net")
+        local SellItemFunc          = NetPackage:WaitForChild("RF/SellAllItems")
         _G.CyberFrog_AutoSell = isOn
         if not isOn then return end
         task.spawn(function()
