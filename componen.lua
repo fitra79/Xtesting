@@ -172,28 +172,44 @@ function LiteField.CreateWindow(opts)
     title.Parent = top
 
     local btnHide = Instance.new("TextButton")
-    btnHide.Name = "Hide"
+    btnHide.Name = "✖"
     btnHide.Size = UDim2.new(0, 60, 0, 28)
     btnHide.Position = UDim2.new(1, -68, 0.5, -14)
     btnHide.BackgroundColor3 = self.Theme.Elem
     btnHide.TextColor3 = self.Theme.Text
-    btnHide.Text = "Hide"
+    btnHide.Text = "✖"
     btnHide.Font = Enum.Font.Gotham
     btnHide.TextSize = 14
     btnHide.Parent = top
     Instance.new("UICorner", btnHide).CornerRadius = UDim.new(0,8)
 
     local btnMini = Instance.new("TextButton")
-    btnMini.Name = "Mini"
+    btnMini.Name ="–"
     btnMini.Size = UDim2.new(0, 60, 0, 28)
     btnMini.Position = UDim2.new(1, -136, 0.5, -14)
     btnMini.BackgroundColor3 = self.Theme.Elem
     btnMini.TextColor3 = self.Theme.Text
-    btnMini.Text = "Min"
+    btnMini.Text = "–"
     btnMini.Font = Enum.Font.Gotham
     btnMini.TextSize = 14
     btnMini.Parent = top
     Instance.new("UICorner", btnMini).CornerRadius = UDim.new(0,8)
+
+    -- Bubble
+    local bubbleBtn = Instance.new("TextButton")
+    bubbleBtn.Size = UDim2.new(0, 90, 0, 40)
+    bubbleBtn.Position = UDim2.new(0, 20, 0.7, 0)
+    bubbleBtn.Text = "CyberFrog"
+    bubbleBtn.BackgroundColor3 = Color3.fromRGB(0,140,220)
+    bubbleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+    bubbleBtn.Font = Enum.Font.GothamBold
+    bubbleBtn.TextSize = 16
+    bubbleBtn.Visible = false
+    bubbleBtn.Active = true
+    bubbleBtn.Draggable = true
+    Instance.new("UICorner", bubbleBtn).CornerRadius = UDim.new(0,14)
+
+    
 
     local divider = Instance.new("Frame")
     divider.Size = UDim2.new(1, 0, 0, 1)
@@ -536,7 +552,7 @@ function LiteField.CreateWindow(opts)
     function self:AddTab(opts2)
         local btn = Instance.new("Frame")
         btn.Name = (opts2.Name or "Tab") .. "Btn"
-        btn.Size = UDim2.new(1, -15, 0, 42)
+        btn.Size = UDim2.new(1, -12, 0, 42)
         btn.BackgroundColor3 = self.Theme.Elem
         btn.Parent = tabList
         local corner = Instance.new("UICorner", btn) corner.CornerRadius = UDim.new(0,8)
@@ -722,7 +738,15 @@ function LiteField.CreateWindow(opts)
     end
 
     btnHide.MouseButton1Click:Connect(function() setHidden(true) end)
-    btnMini.MouseButton1Click:Connect(function() setMinimized(not minimized) end)
+    btnMini.MouseButton1Click:Connect(function()
+        main.Visible = false
+        bubbleBtn.Visible = true
+    end)
+
+    bubbleBtn.MouseButton1Click:Connect(function()
+        main.Visible = true
+        bubbleBtn.Visible = false
+    end)
 
     UserInputService.InputBegan:Connect(function(input, gpe)
         if gpe then return end
