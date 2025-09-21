@@ -743,13 +743,15 @@ function LiteField.CreateWindow(opts)
     end)
 
     local function hideUI()
-        setHidden(true)
+        main.Visible = false
         bubbleBtn.Visible = true
+        hidden = true
     end
 
     local function showUI()
-        setHidden(false)
+        main.Visible = true
         bubbleBtn.Visible = false
+        hidden = false
     end
 
     btnHide.MouseButton1Click:Connect(function()
