@@ -212,3 +212,45 @@ scannerTab:AddButton({
         })
     end
 })
+
+-- === [ Sell Tab ] ==========================================================
+local sellTab = UI:AddTab({
+    Name = "Sell",
+    Icon = "rbxassetid://10804731440"
+})
+
+-- RemoteFunction SellItem
+local SellItemFunc = NetPackage:WaitForChild("RF"):WaitForChild("SellItem")
+
+sellTab:AddButton({
+    Name = "Sell All Fish",
+    Callback = function()
+        local success, err = pcall(function()
+            -- contoh kalau SellItem butuh parameter: {ItemName, Jumlah}
+            -- kalau inventory kamu pakai nama item seperti "Trout", "Salmon" dsb.
+            -- kamu bisa loop inventory lalu Invoke satu-satu
+            local player = Players.LocalPlayer
+            local backpack = player:WaitForChild("Backpack")
+
+            for _, tool in ipairs(backpack:GetChildren()) do
+                SellItemFunc:InvokeServer(tool.Name, 9999) -- jual semua jumlahnya
+                task.wait(0.2)
+            end
+        end)
+
+        if success then
+            UI:Notify({
+                Title = "Sell",
+                Content = "Semua ikan berhasil dijual!",
+                Duration = 5
+            })
+        else
+            warn("Gagal Sell:", err)
+            UI:Notify({
+                Title = "Sell",
+                Content = "Gagal jual ikan, cek console.",
+                Duration = 5
+            })
+        end
+    end
+})
