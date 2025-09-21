@@ -30,6 +30,7 @@ local ChargeRodFunc         = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc   = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
 local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
 local SellItemFunc = NetPackage:WaitForChild("RF/SellAllItems")
+local PlayFhisingEffect = NetPackage:WaitForChild("RF/PlayFishingEffect")
 
 local layout = Instance.new("UIListLayout", mainTab)
 layout.Padding = UDim.new(0, 10)  -- Menambahkan jarak 10px antar elemen
@@ -53,6 +54,7 @@ local teloportTab = UI:AddTab({
 mainTab:AddSection("Auto Farming")
 
 _G.CyberFrog_AutoFishing = false
+_G.CyberFrog_AutoSell = false
 
 mainTab:AddToggle({
     Name = "Auto Fish",
@@ -75,6 +77,8 @@ mainTab:AddToggle({
                     task.wait(1.5)
                     RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
                     task.wait(2.1)
+                    PlayFhisingEffect:InvokeServer()
+                    task.wait(0.5)
                     FishingCompletedEvent:FireServer()
                 end)
             end
@@ -82,18 +86,25 @@ mainTab:AddToggle({
     end
 })
 
-mainTab:AddInput({
-    Name = "Delay Antara Cast (detik)",
-    Placeholder = "Masukkan waktu delay",
-    Default = tostring(delayBetweenCasts),
-    Callback = function(inputText)
-        local inputValue = tonumber(inputText)
-        if inputValue then
-            delayBetweenCasts = inputValue
-            print("Delay updated to: " .. delayBetweenCasts)
-        else
-            print("Invalid input. Please enter a valid number.")
-        end
+mainTab:AddToggle({
+    Name = "Auto Sell",
+    Flag = "AutoSellToggle",
+    Default = false,
+    Callback = function(isOn)
+        _G.CyberFrog_AutoSell = isOn
+        UI:Notify({
+            Title = "Auto Sell",
+            Content = "Fitur Auto Sell " .. (isOn and "Diaktifkan" or "Dimatikan"),
+            Duration = 4
+        })
+        if not isOn then return end
+        task.spawn(function()
+            while _G.CyberFrog_AutoSell do
+                pcall(function()
+                    SellItemFunc:InvokeServer()
+                end)
+            end
+        end)
     end
 })
 
@@ -211,55 +222,5 @@ scannerTab:AddButton({
             Content = "Ketemu " .. tostring(#found) .. " Remote(s). Cek di Output.",
             Duration = 6
         })
-    end
-})
-
----- Tambahan Tab Debug ----
-local debugTab = UI:AddTab({
-    Name = "Debug",
-    Icon = "rbxassetid://10804731440"
-})
-
-debugTab:AddSection("SellItem Debugger")
-
--- Tombol untuk hook logger
-debugTab:AddButton({
-    Name = "Hook SellItem Logger",
-    Callback = function()
-        UI:Notify({
-            Title = "Hook Activated",
-            Content = "SellItem call akan dicetak di console.",
-            Duration = 5
-        })
-
-        local old; old = hookfunction(SellItemFunc.InvokeServer, function(self, ...)
-            print("[SellItem Called] Args:", ...)
-            local result = old(self, ...)
-            print("[SellItem Result]", result)
-            return result
-        end)
-    end
-})
-
--- Tombol untuk test manual invoke
-debugTab:AddButton({
-    Name = "Test SellItem Invoke",
-    Callback = function()
-        UI:Notify({
-            Title = "Testing...",
-            Content = "Mengirim request dummy ke SellItem.",
-            Duration = 4
-        })
-
-        local success, result = pcall(function()
-            -- Ganti "Fish_Small" sama nama item bener kalo sudah tau
-            return SellItemFunc:InvokeServer()
-        end)
-
-        if success then
-            print("[SellItem Test Result]", result)
-        else
-            warn("[SellItem Test Error]", result)
-        end
     end
 })
