@@ -49,6 +49,10 @@ local teloportTab = UI:AddTab({
     Icon = "rbxassetid://10804731440"  -- ID ikon gambar
 })
 
+local mountTab = UI:AddTab({
+    Name = "Mount",  -- Nama tab
+    Icon = "rbxassetid://10804731440"  -- ID ikon gambar
+})
 
 
 mainTab:AddSection("Auto Farming")
@@ -190,35 +194,14 @@ teloportTab:AddButton({
     end
 })
 
--- === [ Remote Scanner Tab ] ================================================
-local scannerTab = UI:AddTab({
-    Name = "Remote Scanner",
-    Icon = "rbxassetid://10804731440"
-})
+--- Mount
+mountTab:AddSection("Mount")
 
-scannerTab:AddButton({
-    Name = "Scan Remotes",
+mountTab:AddToggle({
+    Name = "Mount Atin",
     Callback = function()
-        local found = {}
-        for _, obj in ipairs(NetPackage:GetDescendants()) do
-            if obj:IsA("RemoteEvent") then
-                table.insert(found, "RemoteEvent: " .. obj:GetFullName())
-            elseif obj:IsA("RemoteFunction") then
-                table.insert(found, "RemoteFunction: " .. obj:GetFullName())
-            end
-        end
-        
-        -- tampilkan di console
-        warn("=== Remote Scanner Result ===")
-        for _, line in ipairs(found) do
-            print(line)
-        end
-        
-        -- tampilkan juga notifikasi jumlahnya
-        UI:Notify({
-            Title = "Scanner",
-            Content = "Ketemu " .. tostring(#found) .. " Remote(s). Cek di Output.",
-            Duration = 6
+        runLoader({
+        "https://raw.githubusercontent.com/fitra79/RbScript/refs/heads/main/maps/atin.lua"
         })
     end
 })
