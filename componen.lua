@@ -107,9 +107,9 @@ function LiteField.CreateWindow(opts)
     -- Main window
     local main = Instance.new("Frame")
     main.Name = "Main"
+    main.AnchorPoint = Vector2.new(0.5, 0)
+    main.Position = UDim2.new(0.5, 0, 0, 50) -- 50px dari atas
     main.Size = UDim2.new(0, 520, 0, 280)
-    main.AnchorPoint = Vector2.new(0.5, 0.5)
-    main.Position = UDim2.new(0.5, 0, 0.5, 0)
     main.BackgroundColor3 = self.Theme.Background
     main.BorderSizePixel = 0
     main.Parent = screen
@@ -714,13 +714,19 @@ function LiteField.CreateWindow(opts)
         bubbleBtn.Visible = true
     end
 
-    local function setMinimized(v)
-        minimized = v
-        local target = v and UDim2.new(0,520,0,46) or UDim2.new(0,520,0,280)
-        tween(main, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {Size = target}):Play()
-
-        main.Position = UDim2.new(0.5, 0, 0.5, -main.Size.Y.Offset / 2)
-    end
+    btnMini.MouseButton1Click:Connect(function()
+        if main.Size.Y.Offset > 50 then
+            -- Minimize ke bar kecil
+            tween(main, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Size = UDim2.new(0, 520, 0, 46),
+            Position = UDim2.new(0.5, 0, 0, 10)}):Play()
+        else
+            -- Restore ke ukuran penuh
+            tween(main, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Size = UDim2.new(0, 520, 0, 280),
+            Position = UDim2.new(0.5, 0, 0, 50)}):Play()
+        end
+    end)
 
     -- Single btnHide connection
     btnHide.MouseButton1Click:Connect(function()
