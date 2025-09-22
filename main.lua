@@ -70,12 +70,39 @@ mainTab:AddToggle({
         task.spawn(function()
             while _G.CyberFrog_AutoFishing do
                 pcall(function()
-                    EquipRodEvent:FireServer(1)
+                    if EquipRodEvent then
+                        if EquipRodEvent:IsA("RemoteFunction") then
+                            EquipRodEvent:InvokeServer(1)
+                        else
+                            EquipRodEvent:FireServer(1)
+                        end
+                    end
                     task.wait(0.5)
-                    ChargeRodFunc:InvokeServer(tick())
+
+                    if ChargeRodFunc then
+                        if ChargeRodFunc:IsA("RemoteFunction") then
+                            ChargeRodFunc:InvokeServer(tick())
+                        else
+                            ChargeRodFunc:FireServer(tick())
+                        end
+                    end
                     task.wait(1.5)
-                    RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    FishingCompletedEvent:FireServer()
+
+                    if RequestMinigameFunc then
+                        if RequestMinigameFunc:IsA("RemoteFunction") then
+                            RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
+                        else
+                            RequestMinigameFunc:FireServer(6.531571388244629, 0.99)
+                        end
+                    end
+
+                    if FishingCompletedEvent then
+                        if FishingCompletedEvent:IsA("RemoteFunction") then
+                            FishingCompletedEvent:InvokeServer()
+                        else
+                            FishingCompletedEvent:FireServer()
+                        end
+                    end
                 end)
             end
         end)
