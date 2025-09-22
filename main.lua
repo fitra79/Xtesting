@@ -71,12 +71,10 @@ mainTab:AddToggle({
             while _G.CyberFrog_AutoFishing do
                 pcall(function()
                     EquipRodEvent:FireServer(1)
-                    task.wait(0.5)
                     ChargeRodFunc:InvokeServer(tick())
-                    task.wait(1.5)
                     RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    task.wait(2.1)
                     FishingCompletedEvent:FireServer()
+                    task.wait(1)
                 end)
             end
         end)
