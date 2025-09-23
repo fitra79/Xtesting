@@ -52,13 +52,13 @@ local NetPackage = ReplicatedStorage:WaitForChild("Packages"):WaitForChild("_Ind
 local EquipRodEvent = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
-local FishingCompletedEvent = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_net@0.2.0"):WaitForChild("net"):WaitForChild("RE/FishingCompleted")
+local FishingCompletedEvent = ReplicatedStorage:WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_net@0.2.0"):WaitForChild("net"):WaitForChild("RE/FishingCompleted")
 
 
 -- =================================================================
 -- Pembuatan Antarmuka (GUI)
 -- =================================================================
-local MainTab = Window:CreateTab("Main", 4483362458)
+local MainTab = Window:CreateTab("Main", 10804731440)
 MainTab:CreateSection("Auto Farming")
 
 -- Variabel global untuk mengontrol loop
@@ -84,19 +84,18 @@ MainTab:CreateToggle({
                 pcall(function()
                     
                     EquipRodEvent:FireServer(1)
-                    task.wait(0.5)
 
-                    local change = ChargeRodFunc:InvokeServer(tick())
-                    print("Hasil RequestMinigameFunc:", change)
-                    task.wait(1.5)
+                    ChargeRodFunc.OnClientEvent:Connect(function()
+                        print("ChargeRod selesai!")
+                        RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
 
-                    local minigameResult = RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
-                    print("Hasil RequestMinigameFunc:", minigameResult)
-
-                    task.wait(2.2)
-
-                    local fish = FishingCompletedEvent:FireServer()
-                    print(fish)
+                        -- Menghubungkan dengan event yang menandakan bahwa RequestMinigame selesai
+                        RequestMinigameFunc.OnClientEvent:Connect(function()
+                            print("RequestMinigame selesai!")
+                            -- Setelah RequestMinigame selesai, panggil FishingCompletedEvent
+                            FishingCompletedEvent:FireServer()
+                        end)
+                    end)
                 end)                
             end
         end)
