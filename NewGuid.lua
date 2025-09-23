@@ -52,7 +52,7 @@ local NetPackage = ReplicatedStorage:WaitForChild("Packages"):WaitForChild("_Ind
 local EquipRodEvent = NetPackage:WaitForChild("RE/EquipToolFromHotbar")
 local ChargeRodFunc = NetPackage:WaitForChild("RF/ChargeFishingRod")
 local RequestMinigameFunc = NetPackage:WaitForChild("RF/RequestFishingMinigameStarted")
-local FishingCompletedEvent = NetPackage:WaitForChild("RE/FishingCompleted")
+local FishingCompletedEvent = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_net@0.2.0"):WaitForChild("net"):WaitForChild("RE/FishingCompleted")
 
 
 -- =================================================================
@@ -89,7 +89,9 @@ MainTab:CreateToggle({
                     ChargeRodFunc:InvokeServer(tick())
                     task.wait(1.5)
 
-                    RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
+                    local minigameResult = RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
+                    print("Hasil RequestMinigameFunc:", minigameResult)
+                    print(RequestMinigameFunc)
 
                     task.wait(2.2)
 
