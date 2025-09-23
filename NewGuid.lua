@@ -58,7 +58,7 @@ local FishingCompletedEvent = game:GetService("ReplicatedStorage"):WaitForChild(
 -- =================================================================
 -- Pembuatan Antarmuka (GUI)
 -- =================================================================
-local MainTab = Window:CreateTab("Main", 10804731440)
+local MainTab = Window:CreateTab("Main", 4483362458)
 MainTab:CreateSection("Auto Farming")
 
 -- Variabel global untuk mengontrol loop
@@ -86,16 +86,17 @@ MainTab:CreateToggle({
                     EquipRodEvent:FireServer(1)
                     task.wait(0.5)
 
-                    ChargeRodFunc:InvokeServer(tick())
+                    local change = ChargeRodFunc:InvokeServer(tick())
+                    print("Hasil RequestMinigameFunc:", change)
                     task.wait(1.5)
 
                     local minigameResult = RequestMinigameFunc:InvokeServer(6.531571388244629, 0.99)
                     print("Hasil RequestMinigameFunc:", minigameResult)
-                    print(RequestMinigameFunc)
 
                     task.wait(2.2)
 
-                    FishingCompletedEvent:FireServer()
+                    local fish = FishingCompletedEvent:FireServer()
+                    print(fish)
                 end)                
             end
         end)
